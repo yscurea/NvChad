@@ -267,6 +267,14 @@ local default_plugins = {
     end,
   },
 
+  { -- 文字のない部分を飛ばすjk移動
+		"haya14busa/vim-edgemotion",
+		event = "BufReadPost",
+    init = function()
+      require("core.utils").load_mappings "edgemotion"
+    end,
+	},
+
 }
 
 local config = require("core.utils").load_config()

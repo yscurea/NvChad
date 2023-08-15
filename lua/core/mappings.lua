@@ -2,11 +2,9 @@ local M = {}
 
 M.general = {
   i = {
-    -- escape key
+    -- instead of escape
     ["jj"] = { "<ESC>", "ESC" },
     ["kk"] = { "<ESC>", "ESC" },
-    -- ["jk"] = { "<ESC>", "ESC" },
-    -- ["kj"] = { "<ESC>", "ESC" },
   },
 
   n = {
@@ -16,8 +14,8 @@ M.general = {
     ["sl"] = { "<C-w>l", "Window right" },
     ["sj"] = { "<C-w>j", "Window down" },
     ["sk"] = { "<C-w>k", "Window up" },
-    ["ss"] = { "sp<CR>", "Horizontal Split Window" },
-    ["sv"] = { "vs<CR>", "Vertical Split Window" },
+    ["ss"] = { ":sp<CR>", "Horizontal Split Window" },
+    ["sv"] = { ":vs<CR>", "Vertical Split Window" },
 
     ["zj"] = { "zt", "Scroll down without cursor move" },
     ["zk"] = { "zb", "Scroll up without cursor move" },
@@ -49,6 +47,7 @@ M.general = {
 
     -- new buffer
     ["<leader>b"] = { "<cmd> enew <CR>", "New buffer" },
+    -- show cheatsheet
     ["<leader>ch"] = { "<cmd> NvCheatsheet <CR>", "Mapping cheatsheet" },
 
     ["<leader>fm"] = {
@@ -459,6 +458,18 @@ M.gitsigns = {
       "Toggle deleted",
     },
   },
+}
+
+M.edgemotion = {
+  plugin = true,
+  v = {
+    ["<Leader>J"] = { "<Plug>(edgemotion-j)", "Move cursor to edge" },
+    ["<Leader>K"] = { "<Plug>(edgemotion-k)", "Move cursor to edge" },
+  },
+  n = {
+    ["<Leader>J"] = { "<Plug>(edgemotion-j)", "Move cursor to edge" },
+    ["<Leader>K"] = { "<Plug>(edgemotion-k)", "Move cursor to edge" },
+  }
 }
 
 

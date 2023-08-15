@@ -77,7 +77,7 @@ vim.env.PATH = vim.fn.stdpath "data" .. "/mason/bin" .. (is_windows and ";" or "
 -------------------------------------- autocmds ------------------------------------------
 local autocmd = vim.api.nvim_create_autocmd
 
--- dont list quickfix buffers
+-- don't list quickfix buffers
 autocmd("FileType", {
   pattern = "qf",
   callback = function()

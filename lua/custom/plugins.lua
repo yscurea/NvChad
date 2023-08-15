@@ -83,21 +83,6 @@ local plugins = {
 		opt = true,
 	},
 
-  { -- 文字のない部分を飛ばすjk移動
-		"haya14busa/vim-edgemotion",
-		event = "BufReadPost",
-		config = function() require("plugins.configs.vim_edgemotion") end,
-	},
-
-  { -- jk長押しでカーソル加速
-		"rhysd/accelerated-jk",
-		event = "CursorMoved",
-		config = function()
-      vim.keymap.set({ "n" }, "j", "<Plug>(accelerated_jk_gj)")
-      vim.keymap.set({ "n" }, "k", "<Plug>(accelerated_jk_gk)")
-    end,
-	},
-
   { -- エラー等一覧表示
 		"folke/trouble.nvim",
     cmd = { "TroubleToggle" },
@@ -111,6 +96,15 @@ local plugins = {
     cmd = { "HopWord", "HopVertical", "HopAnywhere" },
 		config = function()
       require("hop").setup()
+    end,
+	},
+
+  { -- j,k長押しでカーソル加速
+		"rhysd/accelerated-jk",
+		event = "CursorMoved",
+		config = function()
+      vim.keymap.set({ "n" }, "j", "<Plug>(accelerated_jk_gj)")
+      vim.keymap.set({ "n" }, "k", "<Plug>(accelerated_jk_gk)")
     end,
 	},
 
