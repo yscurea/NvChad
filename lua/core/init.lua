@@ -42,6 +42,20 @@ opt.termguicolors = true
 opt.timeoutlen = 400
 opt.undofile = true
 
+local powershell_options = {
+  shell = vim.fn.executable "pwsh" == 1 and "pwsh" or "powershell",
+  shellcmdflag = "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;",
+  shellredir = "-RedirectStandardOutput %s -NoNewWindow -Wait",
+  shellpipe = "2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode",
+  shellquote = "",
+  shellxquote = "",
+}
+for option, value in pairs(powershell_options) do
+  vim.opt[option] = value
+end
+
+vim.cmd("au TextYankPost * silent! lua vim.highlight.on_yank()")
+
 -- interval for writing swap file to disk, also used by gitsigns
 opt.updatetime = 250
 
@@ -93,17 +107,15 @@ autocmd("BufWritePost", {
     vim.g.transparency = config.ui.transparency
 
     -- statusline
-    require("plenary.reload").reload_module("nvchad.statusline." .. config.ui.statusline.theme)
-    vim.opt.statusline = "%!v:lua.require('nvchad.statusline." .. config.ui.statusline.theme .. "').run()"
+    require("plenary.reload").reload_module("nvchad_ui.statusline." .. config.ui.statusline.theme)
+    vim.opt.statusline = "%!v:lua.require('nvchad_ui.statusline." .. config.ui.statusline.theme .. "').run()"
 
-    -- tabufline
     if config.ui.tabufline.enabled then
-      require("plenary.reload").reload_module "nvchad.tabufline.modules"
-      vim.opt.tabline = "%!v:lua.require('nvchad.tabufline.modules').run()"
+      require("plenary.reload").reload_module "nvchad_ui.tabufline.modules"
+      vim.opt.tabline = "%!v:lua.require('nvchad_ui.tabufline.modules').run()"
     end
 
     require("base46").load_all_highlights()
-    -- vim.cmd("redraw!")
   end,
 })
 
@@ -111,5 +123,5 @@ autocmd("BufWritePost", {
 local new_cmd = vim.api.nvim_create_user_command
 
 new_cmd("NvChadUpdate", function()
-  require "nvchad.updater"()
+  require "nvchad.update"()
 end, {})

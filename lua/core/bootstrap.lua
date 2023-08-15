@@ -32,7 +32,7 @@ M.lazy = function(install_path)
   require "plugins"
 
   -- mason packages & show post_boostrap screen
-  require "nvchad.post_install"()
+  require "nvchad.post_bootstrap"()
 end
 
 M.gen_chadrc_template = function()
@@ -54,8 +54,10 @@ M.gen_chadrc_template = function()
       vim.fn.mkdir(path, "p")
 
       local file = io.open(path .. "chadrc.lua", "w")
-      file:write "---@type ChadrcConfig \n local M = {}\n M.ui = {theme = 'onedark'}\n return M"
-      file:close()
+      if file ~= nil then
+        file:write "---@type ChadrcConfig \n local M = {}\n M.ui = {theme = 'onedark'}\n return M"
+        file:close()
+      end
     end
   end
 end

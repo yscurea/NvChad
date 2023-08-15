@@ -1,8 +1,12 @@
--- All plugins have lazy=true by default,to load a plugin on startup just lazy=false
--- List of all default plugins & their definitions
 local default_plugins = {
 
   "nvim-lua/plenary.nvim",
+
+  -- nvchad plugins
+  {
+    "NvChad/extensions",
+    branch = "v2.0",
+  },
 
   {
     "NvChad/base46",
@@ -16,6 +20,9 @@ local default_plugins = {
     "NvChad/ui",
     branch = "v2.0",
     lazy = false,
+    config = function()
+      require "nvchad_ui"
+    end,
   },
 
   {
@@ -47,7 +54,7 @@ local default_plugins = {
   {
     "nvim-tree/nvim-web-devicons",
     opts = function()
-      return { override = require "nvchad.icons.devicons" }
+      return { override = require("nvchad_ui.icons").devicons }
     end,
     config = function(_, opts)
       dofile(vim.g.base46_cache .. "devicons")
@@ -211,7 +218,6 @@ local default_plugins = {
     end,
   },
 
-  -- file managing , picker etc
   {
     "nvim-tree/nvim-tree.lua",
     cmd = { "NvimTreeToggle", "NvimTreeFocus" },
@@ -249,7 +255,6 @@ local default_plugins = {
     end,
   },
 
-  -- Only load whichkey after all the gui
   {
     "folke/which-key.nvim",
     keys = { "<leader>", '"', "'", "`", "c", "v", "g" },
@@ -261,11 +266,12 @@ local default_plugins = {
       require("which-key").setup(opts)
     end,
   },
+
 }
 
 local config = require("core.utils").load_config()
 
-if #config.plugins > 0 then
+if #config.plugins > 0 then -- length(config.plugins) > 0
   table.insert(default_plugins, { import = config.plugins })
 end
 

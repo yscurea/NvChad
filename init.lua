@@ -8,14 +8,14 @@ end
 
 require("core.utils").load_mappings()
 
-local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
+local lazy_path = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 
--- bootstrap lazy.nvim!
-if not vim.loop.fs_stat(lazypath) then
+if not vim.loop.fs_stat(lazy_path) then
   require("core.bootstrap").gen_chadrc_template()
-  require("core.bootstrap").lazy(lazypath)
+  require("core.bootstrap").lazy(lazy_path)
 end
 
 dofile(vim.g.base46_cache .. "defaults")
-vim.opt.rtp:prepend(lazypath)
+vim.opt.rtp:prepend(lazy_path)
 require "plugins"
+

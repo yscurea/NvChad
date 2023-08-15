@@ -1,27 +1,32 @@
--- n, v, i, t = mode names
-
 local M = {}
 
 M.general = {
   i = {
-    -- go to  beginning and end
-    ["<C-b>"] = { "<ESC>^i", "Beginning of line" },
-    ["<C-e>"] = { "<End>", "End of line" },
-
-    -- navigate within insert mode
-    ["<C-h>"] = { "<Left>", "Move left" },
-    ["<C-l>"] = { "<Right>", "Move right" },
-    ["<C-j>"] = { "<Down>", "Move down" },
-    ["<C-k>"] = { "<Up>", "Move up" },
+    -- escape key
+    ["jj"] = { "<ESC>", "ESC" },
+    ["kk"] = { "<ESC>", "ESC" },
+    -- ["jk"] = { "<ESC>", "ESC" },
+    -- ["kj"] = { "<ESC>", "ESC" },
   },
 
   n = {
     ["<Esc>"] = { ":noh <CR>", "Clear highlights" },
     -- switch between windows
-    ["<C-h>"] = { "<C-w>h", "Window left" },
-    ["<C-l>"] = { "<C-w>l", "Window right" },
-    ["<C-j>"] = { "<C-w>j", "Window down" },
-    ["<C-k>"] = { "<C-w>k", "Window up" },
+    ["sh"] = { "<C-w>h", "Window left" },
+    ["sl"] = { "<C-w>l", "Window right" },
+    ["sj"] = { "<C-w>j", "Window down" },
+    ["sk"] = { "<C-w>k", "Window up" },
+    ["ss"] = { "sp<CR>", "Horizontal Split Window" },
+    ["sv"] = { "vs<CR>", "Vertical Split Window" },
+
+    ["zj"] = { "zt", "Scroll down without cursor move" },
+    ["zk"] = { "zb", "Scroll up without cursor move" },
+
+    -- Increment and Decrement
+    ["+"] = {"<C-a>", "Increment"},
+    ["-"] = {"<C-x>", "Decrement"},
+
+    ["<leader>d"] = {"\"_d", "delete without yank"},
 
     -- save
     ["<C-s>"] = { "<cmd> w <CR>", "Save file" },
@@ -36,7 +41,7 @@ M.general = {
     -- Allow moving the cursor through wrapped lines with j, k, <Up> and <Down>
     -- http://www.reddit.com/r/vim/comments/2k4cbr/problem_with_gj_and_gk/
     -- empty mode is same as using <cmd> :map
-    -- also don't use g[j|k] when in operator pending mode, so it doesn't alter d, y or c behaviour
+    -- also don't use g[j|k] when in operator pending mode, so it doesn't alter d, y or c behavior
     ["j"] = { 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', "Move down", opts = { expr = true } },
     ["k"] = { 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', "Move up", opts = { expr = true } },
     ["<Up>"] = { 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', "Move up", opts = { expr = true } },
@@ -68,7 +73,7 @@ M.general = {
     ["k"] = { 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', "Move up", opts = { expr = true } },
     -- Don't copy the replaced text after pasting in visual mode
     -- https://vim.fandom.com/wiki/Replace_a_word_with_yanked_text#Alternative_mapping_for_paste
-    ["p"] = { 'p:let @+=@0<CR>:let @"=@0<CR>', "Dont copy replaced text", opts = { silent = true } },
+    ["p"] = { 'p:let @+=@0<CR>:let @"=@0<CR>', "Don't copy replaced text", opts = { silent = true } },
   },
 }
 
@@ -79,14 +84,14 @@ M.tabufline = {
     -- cycle through buffers
     ["<tab>"] = {
       function()
-        require("nvchad.tabufline").tabuflineNext()
+        require("nvchad_ui.tabufline").tabuflineNext()
       end,
       "Goto next buffer",
     },
 
     ["<S-tab>"] = {
       function()
-        require("nvchad.tabufline").tabuflinePrev()
+        require("nvchad_ui.tabufline").tabuflinePrev()
       end,
       "Goto prev buffer",
     },
@@ -94,7 +99,7 @@ M.tabufline = {
     -- close buffer + hide terminal buffer
     ["<leader>x"] = {
       function()
-        require("nvchad.tabufline").close_buffer()
+        require("nvchad_ui.tabufline").close_buffer()
       end,
       "Close buffer",
     },
@@ -172,7 +177,7 @@ M.lspconfig = {
 
     ["<leader>ra"] = {
       function()
-        require("nvchad.renamer").open()
+        require("nvchad_ui.renamer").open()
       end,
       "LSP rename",
     },
@@ -306,6 +311,8 @@ M.nvterm = {
       end,
       "Toggle vertical term",
     },
+
+    ["<A-j>"] = { "<C-\\><C-n>", "move Terminal Normal mode" },
   },
 
   n = {
@@ -453,5 +460,6 @@ M.gitsigns = {
     },
   },
 }
+
 
 return M
